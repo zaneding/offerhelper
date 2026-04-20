@@ -1,7 +1,12 @@
+<p align="center">
+  <img src="./assets/readme-hero.svg" alt="OfferHelper banner" width="100%" />
+</p>
+
 # OfferHelper
 
 <p align="center">
-  <strong>Tailor resumes and cover letters from a job posting, with a public-safe plugin and a private-data workflow that stays outside the public repo.</strong>
+  <strong>Privacy-first Claude Code skill for tailoring resumes and cover letters from a job posting.</strong><br />
+  <sub>Template-aware. Public-safe. Built for a clean split between open plugin logic and private candidate data.</sub>
 </p>
 
 <p align="center">
@@ -27,19 +32,25 @@ OfferHelper is a Claude Code skill and plugin workflow for application tailoring
 - Private data enters only through local `references/private-config.md`
 - Users can fill `references/` manually or let Claude generate/enrich it from private Markdown sources
 
-```mermaid
-flowchart LR
-    A[Job Posting URL or JD] --> B[Public Skill]
-    B --> C[references/private-config.md]
-    C --> D[Optional private Markdown sources]
-    D --> E[Generate or refresh local references files]
-    E --> F[Candidate Profile Mapping]
-    E --> G[Layout Map Rules]
-    F --> H[Resume Tailoring]
-    G --> H
-    H --> I[Template Update or Structured Edit Plan]
-    H --> J[Cover Letter Draft]
+## Why OfferHelper
+
+- Privacy-first: the public repo carries no real candidate profile, contact data, Canva IDs, or edit URLs
+- Template-aware: tailoring is designed to fit a mapped resume template, not just rewrite text in isolation
+- Claude-native: the project is structured as a real Claude Code plugin with one public skill entry under `skills/offerhelper/`
+- Practical workflow: supports both manual setup and private-source-driven generation of local reference files
+
+## Quick Install
+
+```bash
+/plugin marketplace add offerhelper github:zaneding/offerhelper
+/plugin install offerhelper@offerhelper
 ```
+
+## How It Works
+
+<p align="center">
+  <img src="./assets/readme-workflow.svg" alt="OfferHelper workflow" width="100%" />
+</p>
 
 <details open>
 <summary><strong>中文</strong></summary>
@@ -49,13 +60,15 @@ flowchart LR
 ## 目录
 
 - [项目定位](#cn-positioning)
-- [Public / Private 分层](#cn-split)
+- [为什么用它](#cn-why)
 - [快速开始](#cn-quickstart)
-- [初始化配置](#cn-setup)
+- [首次配置](#cn-setup)
+- [Public / Private 分层](#cn-split)
 - [私有接口：private-config](#cn-private-config)
+- [使用场景](#cn-use-cases)
 - [工作流](#cn-workflow)
+- [Requirements](#cn-requirements)
 - [仓库结构](#cn-structure)
-- [隐私与安全](#cn-safety)
 - [FAQ](#cn-faq)
 
 <a id="cn-positioning"></a>
@@ -66,14 +79,82 @@ flowchart LR
 
 - 定制版简历内容
 - 定制版求职信
-- 在可编辑能力存在时的模板更新结果
-- 在能力不足时的结构化编辑方案
+- 可直接落到模板里的编辑内容
+- 在编辑能力缺失时的结构化 edit plan
 
-公开版的目标很明确：
+它不是一个“只会堆关键词”的 README 项目，而是一条完整工作流：
 
-- 仓库本身不携带任何个人信息
-- 插件本体只包含通用逻辑、模板和教程
-- 真实候选人资料、Canva 元数据、联系方式只留在私有 repo 或本地忽略文件里
+- 先理解岗位
+- 再映射候选人证据
+- 再约束到模板结构
+- 最后输出能投递的内容
+
+<a id="cn-why"></a>
+
+## 为什么用它
+
+| 优势 | 说明 |
+|---|---|
+| 隐私优先 | 公开仓库不携带你的真实候选人资料、联系方式、Canva 元数据 |
+| 模板感知 | 输出不是纯文本，而是面向 `resume-layout-map` 的结构化改写 |
+| 适合长期维护 | 公开版做分发，私有 repo 保留真实 source-of-truth |
+| 兼顾自动化与手工 | 可手填 `references/`，也可让 Claude 从私有 Markdown 源生成 |
+
+<a id="cn-quickstart"></a>
+
+## 快速开始
+
+### 1. 安装插件
+
+```bash
+/plugin marketplace add offerhelper github:zaneding/offerhelper
+/plugin install offerhelper@offerhelper
+```
+
+### 2. 创建本地 `references/`
+
+```text
+references/
+```
+
+从公开模板复制出以下本地文件：
+
+- `references/candidate-profile.md`
+- `references/resume-layout-map.md`
+- `references/private-config.md`
+
+模板来源：
+
+- `skills/offerhelper/references/candidate-profile-template.md`
+- `skills/offerhelper/references/resume-layout-map-template.md`
+- `skills/offerhelper/references/private-config.example.md`
+
+### 3. 开始使用
+
+```text
+这是我想申请的岗位：[职位链接或 JD]
+请根据这个岗位帮我定制简历，并生成 cover letter。
+```
+
+<a id="cn-setup"></a>
+
+## 首次配置
+
+推荐按这四步初始化：
+
+1. 从 `skills/offerhelper/references/` 复制三个公开模板到本地 `references/`
+2. 填写 `references/private-config.md`
+3. 如果你维护私有 repo，把真实资料路径写进去
+4. 让 Claude 先生成或刷新：
+   - `references/candidate-profile.md`
+   - `references/resume-layout-map.md`
+
+需要优先刷新本地 references 的情况：
+
+- 文件不存在
+- 文件仍是模板占位符
+- 模板已经改版
+- 你的候选人资料已经更新
 
 <a id="cn-split"></a>
 
@@ -83,11 +164,8 @@ flowchart LR
 
 - 插件元数据
 - 可安装的公开 skill：`skills/offerhelper/SKILL.md`
-- 三个公开模板：
-  - `candidate-profile-template.md`
-  - `resume-layout-map-template.md`
-  - `private-config.example.md`
-- README 和校验脚本
+- 公开模板与示例配置
+- README 与校验脚本
 
 ### 私有 repo 或本地忽略文件包含什么
 
@@ -104,65 +182,6 @@ flowchart LR
 3. 在本地工作目录里创建 `references/private-config.md`
 4. 在 `private-config.md` 中写入私有 Markdown 文件路径
 5. 让 Claude 读取这些私有源文件并生成或补全本地 `references/` 文件
-
-<a id="cn-quickstart"></a>
-
-## 快速开始
-
-### 1. 安装插件
-
-```bash
-/plugin marketplace add offerhelper github:zaneding/offerhelper
-/plugin install offerhelper@offerhelper
-```
-
-### 2. 创建本地 `references/`
-
-在你的项目里创建本地目录：
-
-```text
-references/
-```
-
-然后从公开模板创建这些文件：
-
-- `references/candidate-profile.md`
-- `references/resume-layout-map.md`
-- `references/private-config.md`
-
-对应公开模板位置：
-
-- `skills/offerhelper/references/candidate-profile-template.md`
-- `skills/offerhelper/references/resume-layout-map-template.md`
-- `skills/offerhelper/references/private-config.example.md`
-
-### 3. 放入你的私有资料
-
-你可以二选一：
-
-- 直接手工填写 `references/candidate-profile.md` 和 `references/resume-layout-map.md`
-- 或者在 `references/private-config.md` 中提供私有 Markdown 文件路径，让 Claude 帮你生成或刷新这些文件
-
-<a id="cn-setup"></a>
-
-## 初始化配置
-
-第一次使用时建议按这个顺序做：
-
-1. 从 `skills/offerhelper/references/` 复制三个公开模板到本地 `references/`
-2. 填写 `references/private-config.md`
-3. 如果你有私有 repo，把真实资料文件路径写进 `private-config.md`
-4. 让 Claude 先生成或刷新：
-   - `references/candidate-profile.md`
-   - `references/resume-layout-map.md`
-5. 再开始贴 JD 做简历和求职信定制
-
-如果本地 `references/candidate-profile.md` 或 `references/resume-layout-map.md` 出现以下情况，应优先刷新：
-
-- 文件不存在
-- 仍包含模板占位符
-- 关键字段规则不完整
-- 模板已经改版但字段映射没更新
 
 <a id="cn-private-config"></a>
 
@@ -193,6 +212,15 @@ cover_letter_source_path: ../offerhelpe_privat/cover-letter-source.md
 
 如果这些路径存在，Claude 应先读取它们，再生成或补全本地 `references/` 文件；如果不存在，就回退到公开模板并要求用户手工补齐。
 
+<a id="cn-use-cases"></a>
+
+## 使用场景
+
+- 高频海投相似岗位，但想保留真实、可验证的经历表达
+- 已经有固定 Canva 或其他模板，不想每次手工改版
+- 想把公开技能仓库和私人求职资产彻底分开
+- 想让 Claude 先整理候选人资料，再做岗位定制
+
 <a id="cn-workflow"></a>
 
 ## 工作流
@@ -204,6 +232,16 @@ cover_letter_source_path: ../offerhelpe_privat/cover-letter-source.md
 5. 基于候选人资料和 layout map 做岗位定制
 6. 直接编辑模板，或输出结构化编辑方案
 7. 生成求职信
+
+<a id="cn-requirements"></a>
+
+## Requirements
+
+- 已安装 Claude Code
+- 一个本地 `references/` 目录
+- 至少一份 candidate profile 和一份 layout map
+- 可选：单独 private repo，例如 `offerhelpe_privat`
+- 可选：Canva 或其他模板工具的真实元数据
 
 <a id="cn-structure"></a>
 
@@ -237,15 +275,6 @@ references/
 └── private-config.md
 ```
 
-<a id="cn-safety"></a>
-
-## 隐私与安全
-
-- 公开仓库不应提交任何真实候选人数据
-- `references/private-config.md` 已在 `.gitignore` 中忽略
-- `references/candidate-profile.md` 和 `references/resume-layout-map.md` 也默认忽略，避免把本地生成的个人资料误提交
-- `npm test` 会检查 README 结构和公开仓库的隐私标记
-
 <a id="cn-faq"></a>
 
 ## FAQ
@@ -258,9 +287,9 @@ references/
 
 不一定。你也可以只放在本地忽略目录里。单独 private repo 只是更适合长期维护和备份。
 
-### 为什么公开 repo 不再带 `references/` 里的真实文件？
+### 为什么公开 repo 不再带真实 `references/`？
 
-因为这些文件很容易逐步积累出你的真实经历、教育、公司和模板 ID。公开版只保留模板，不保留真实内容。
+因为这些文件会逐步积累真实经历、公司、学校和模板元数据。公开版只保留模板，避免误泄露。
 
 </details>
 
@@ -272,31 +301,101 @@ references/
 ## Contents
 
 - [Positioning](#en-positioning)
-- [Public / Private Split](#en-split)
+- [Why Use It](#en-why)
 - [Quick Start](#en-quickstart)
 - [First-Time Setup](#en-setup)
+- [Public / Private Split](#en-split)
 - [Private Interface: private-config](#en-private-config)
+- [Use Cases](#en-use-cases)
 - [Workflow](#en-workflow)
+- [Requirements](#en-requirements)
 - [Repository Structure](#en-structure)
-- [Privacy and Safety](#en-safety)
 - [FAQ](#en-faq)
 
 <a id="en-positioning"></a>
 
 ## Positioning
 
-`OfferHelper` is a Claude Code skill for tailoring application materials to a job posting. It reads a job URL or pasted JD and combines that with a candidate profile, a resume layout map, and runtime configuration to produce:
+`OfferHelper` is a Claude Code skill for tailoring application materials to a job posting. It combines a job description with candidate evidence, template constraints, and runtime configuration to produce:
 
 - tailored resume content
 - a tailored cover letter
-- direct template updates when editing capability is available
+- template-ready edits
 - a structured edit plan when direct editing is unavailable
 
-The public version is intentionally strict:
+This is not just a keyword optimizer. The workflow is:
 
-- the repository itself ships no personal data
-- the plugin contains only reusable logic, templates, and onboarding
-- real candidate facts, Canva metadata, and identity data stay in a private repo or ignored local files
+- understand the role
+- map verified candidate evidence
+- constrain the result to a resume layout
+- produce something usable for an actual application
+
+<a id="en-why"></a>
+
+## Why Use It
+
+| Advantage | Description |
+|---|---|
+| Privacy-first | The public repo ships no real candidate profile, contact info, or Canva metadata |
+| Template-aware | Output is shaped to a `resume-layout-map`, not treated as free-form text only |
+| Maintainable | Public repo stays distributable while a private repo keeps your source-of-truth |
+| Flexible | You can fill `references/` manually or let Claude generate it from private sources |
+
+<a id="en-quickstart"></a>
+
+## Quick Start
+
+### 1. Install the plugin
+
+```bash
+/plugin marketplace add offerhelper github:zaneding/offerhelper
+/plugin install offerhelper@offerhelper
+```
+
+### 2. Create local `references/`
+
+```text
+references/
+```
+
+Create these local runtime files from the public templates:
+
+- `references/candidate-profile.md`
+- `references/resume-layout-map.md`
+- `references/private-config.md`
+
+Template sources:
+
+- `skills/offerhelper/references/candidate-profile-template.md`
+- `skills/offerhelper/references/resume-layout-map-template.md`
+- `skills/offerhelper/references/private-config.example.md`
+
+### 3. Start using it
+
+```text
+Here is the job posting: [URL or pasted JD]
+Please tailor my resume and generate a cover letter for this role.
+```
+
+<a id="en-setup"></a>
+
+## First-Time Setup
+
+Recommended first-run sequence:
+
+1. Copy the three public templates from `skills/offerhelper/references/` into local `references/`
+2. Fill `references/private-config.md`
+3. If you maintain a private repo, add your real source file paths there
+4. Ask Claude to generate or refresh:
+   - `references/candidate-profile.md`
+   - `references/resume-layout-map.md`
+
+Refresh those local reference files first if:
+
+- a file is missing
+- placeholders are still present
+- the template changed
+- your candidate source-of-truth changed
 
 <a id="en-split"></a>
 
@@ -306,10 +405,7 @@ The public version is intentionally strict:
 
 - plugin metadata
 - the installable public skill at `skills/offerhelper/SKILL.md`
-- three public templates:
-  - `candidate-profile-template.md`
-  - `resume-layout-map-template.md`
-  - `private-config.example.md`
+- public templates and example config
 - README and validation scripts
 
 ### What stays in a private repo or ignored local files
@@ -327,65 +423,6 @@ The public version is intentionally strict:
 3. Create local `references/private-config.md`
 4. Put private Markdown source paths into that config
 5. Let Claude read those private sources and generate or refresh local `references/` files
-
-<a id="en-quickstart"></a>
-
-## Quick Start
-
-### 1. Install the plugin
-
-```bash
-/plugin marketplace add offerhelper github:zaneding/offerhelper
-/plugin install offerhelper@offerhelper
-```
-
-### 2. Create local `references/`
-
-Create a local runtime directory:
-
-```text
-references/
-```
-
-Then create these files from the public templates:
-
-- `references/candidate-profile.md`
-- `references/resume-layout-map.md`
-- `references/private-config.md`
-
-Template sources:
-
-- `skills/offerhelper/references/candidate-profile-template.md`
-- `skills/offerhelper/references/resume-layout-map-template.md`
-- `skills/offerhelper/references/private-config.example.md`
-
-### 3. Add your private data
-
-You have two supported paths:
-
-- fill `references/candidate-profile.md` and `references/resume-layout-map.md` manually
-- or add private Markdown source paths to `references/private-config.md` and let Claude generate or refresh those files
-
-<a id="en-setup"></a>
-
-## First-Time Setup
-
-Recommended first-run sequence:
-
-1. Copy the three public templates from `skills/offerhelper/references/` into local `references/`
-2. Fill `references/private-config.md`
-3. If you maintain a private repo, add your real source file paths there
-4. Ask Claude to generate or refresh:
-   - `references/candidate-profile.md`
-   - `references/resume-layout-map.md`
-5. Only then start resume and cover-letter tailoring for a specific JD
-
-Refresh those local reference files first if:
-
-- a file is missing
-- placeholders are still present
-- the field rules are incomplete
-- the template changed and the mapping is outdated
 
 <a id="en-private-config"></a>
 
@@ -416,6 +453,15 @@ cover_letter_source_path: ../offerhelpe_privat/cover-letter-source.md
 
 If those paths exist, Claude should read them first and use them to build or enrich local `references/` files. If they do not exist, the skill should fall back to the public templates and ask the user to complete the setup manually.
 
+<a id="en-use-cases"></a>
+
+## Use Cases
+
+- repeated applications to similar roles with truthful tailoring
+- fixed Canva or non-Canva resume templates that should be updated instead of rebuilt
+- teams or individuals who want a clean public repo and a separate private source-of-truth
+- workflows where Claude first organizes candidate evidence, then tailors job materials
+
 <a id="en-workflow"></a>
 
 ## Workflow
@@ -427,6 +473,16 @@ If those paths exist, Claude should read them first and use them to build or enr
 5. Tailor resume content using the candidate profile and layout map
 6. Update the template directly or return a structured edit plan
 7. Generate the cover letter
+
+<a id="en-requirements"></a>
+
+## Requirements
+
+- Claude Code installed
+- a local `references/` directory
+- at least one candidate profile and one layout map
+- optional separate private repo such as `offerhelpe_privat`
+- optional Canva or other template metadata
 
 <a id="en-structure"></a>
 
@@ -460,15 +516,6 @@ references/
 └── private-config.md
 ```
 
-<a id="en-safety"></a>
-
-## Privacy and Safety
-
-- no real candidate data should be committed to the public repo
-- `references/private-config.md` is ignored by `.gitignore`
-- `references/candidate-profile.md` and `references/resume-layout-map.md` are also ignored to prevent accidental commits of generated personal data
-- `npm test` validates both README structure and public-repo privacy markers
-
 <a id="en-faq"></a>
 
 ## FAQ
@@ -481,8 +528,8 @@ Yes. The public repo no longer ships real Canva metadata, but your private `priv
 
 No. Ignored local files are enough. A separate private repo is simply the cleaner long-term setup for backup and maintenance.
 
-### Why remove the real `references/` files from the public repo?
+### Why remove real `references/` files from the public repo?
 
-Because those files gradually accumulate real candidate history, education, company names, and live template metadata. The public repo should ship templates only.
+Because those files gradually accumulate real candidate history, company names, education, and live template metadata. The public repo should ship templates only.
 
 </details>

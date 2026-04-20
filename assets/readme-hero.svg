@@ -1,0 +1,75 @@
+<svg width="1200" height="520" viewBox="0 0 1200 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="74" y1="32" x2="1132" y2="484" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#09111F"/>
+      <stop offset="0.45" stop-color="#0F1C31"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(934 138) rotate(141.525) scale(241.679 158.634)">
+      <stop stop-color="#93C5FD" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#93C5FD" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(770 362) rotate(145.96) scale(295.714 175.401)">
+      <stop stop-color="#2563EB" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#2563EB" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stroke" x1="100" y1="72" x2="1098" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E2E8F0" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#BFDBFE" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="headline" x1="96" y1="112" x2="502" y2="228" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#BFDBFE"/>
+    </linearGradient>
+    <filter id="soft" x="0" y="0" width="1200" height="520" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="46"/>
+    </filter>
+  </defs>
+
+  <rect x="18" y="18" width="1164" height="484" rx="30" fill="url(#bg)"/>
+  <rect x="18.75" y="18.75" width="1162.5" height="482.5" rx="29.25" stroke="url(#stroke)" stroke-width="1.5"/>
+
+  <g filter="url(#soft)">
+    <ellipse cx="965" cy="154" rx="156" ry="96" fill="url(#orbA)"/>
+    <ellipse cx="784" cy="360" rx="234" ry="120" fill="url(#orbB)"/>
+    <ellipse cx="286" cy="84" rx="138" ry="52" fill="#FFFFFF" fill-opacity="0.13"/>
+  </g>
+
+  <rect x="84" y="76" width="196" height="38" rx="19" fill="#EFF6FF" fill-opacity="0.09" stroke="#DBEAFE" stroke-opacity="0.24"/>
+  <text x="112" y="101" fill="#DBEAFE" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="15" letter-spacing="0.12em">CLAUDE CODE PLUGIN</text>
+
+  <text x="84" y="192" fill="url(#headline)" font-family="Georgia, Cambria, Times New Roman, Times, serif" font-size="86" font-weight="700" letter-spacing="-0.04em">OfferHelper</text>
+  <text x="88" y="242" fill="#DBEAFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="600">Privacy-first application tailoring for Claude Code</text>
+  <text x="88" y="285" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" opacity="0.96">Tailor resumes, cover letters, and template-aware edits from a job posting</text>
+  <text x="88" y="319" fill="#E2E8F0" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" opacity="0.96">while keeping private candidate data outside the public repository.</text>
+
+  <g>
+    <rect x="88" y="368" width="190" height="40" rx="20" fill="#F8FAFC"/>
+    <text x="120" y="394" fill="#0F172A" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">Public-safe plugin</text>
+
+    <rect x="290" y="368" width="188" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.08" stroke="#DBEAFE" stroke-opacity="0.18"/>
+    <text x="324" y="394" fill="#DBEAFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">Template-aware</text>
+
+    <rect x="490" y="368" width="208" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.08" stroke="#DBEAFE" stroke-opacity="0.18"/>
+    <text x="524" y="394" fill="#DBEAFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">Private repo friendly</text>
+  </g>
+
+  <g opacity="0.96">
+    <rect x="824" y="102" width="280" height="300" rx="24" fill="#FFFFFF" fill-opacity="0.08" stroke="#DBEAFE" stroke-opacity="0.18"/>
+
+    <text x="854" y="144" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Runtime Inputs</text>
+
+    <rect x="854" y="168" width="220" height="48" rx="14" fill="#0B1323" stroke="#DBEAFE" stroke-opacity="0.12"/>
+    <text x="878" y="198" fill="#DBEAFE" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="15">candidate-profile.md</text>
+
+    <rect x="854" y="228" width="220" height="48" rx="14" fill="#0B1323" stroke="#DBEAFE" stroke-opacity="0.12"/>
+    <text x="875" y="258" fill="#DBEAFE" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="15">resume-layout-map.md</text>
+
+    <rect x="854" y="288" width="220" height="48" rx="14" fill="#0B1323" stroke="#DBEAFE" stroke-opacity="0.12"/>
+    <text x="892" y="318" fill="#DBEAFE" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="15">private-config.md</text>
+
+    <text x="854" y="370" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">Public skill logic on GitHub.</text>
+    <text x="854" y="394" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">Private source-of-truth stays local</text>
+    <text x="854" y="418" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">or in <tspan font-weight="700">offerhelpe_privat</tspan>.</text>
+  </g>
+</svg>

@@ -31,7 +31,7 @@ const readme = readFileSync(readmePath, "utf8");
 const requiredSnippets = [
   ["# OfferHelper", "main title"],
   ['<a href="#中文">中文</a> · <a href="#english">English</a>', "language switch links"],
-  ["```mermaid", "mermaid workflow block"],
+  ['<img src="./assets/readme-workflow.svg" alt="OfferHelper workflow" width="100%" />', "workflow image"],
   ['<details open>', "open Chinese details block"],
   ['<summary><strong>中文</strong></summary>', "Chinese summary block"],
   ['<summary><strong>English</strong></summary>', "English summary block"],
@@ -59,6 +59,8 @@ if (detailsOpenCount !== 2 || detailsCloseCount !== 2) {
 const referencedPaths = [
   ".claude-plugin/plugin.json",
   ".gitignore",
+  "assets/readme-hero.svg",
+  "assets/readme-workflow.svg",
   "LICENSE",
   "README.md",
   "package.json",

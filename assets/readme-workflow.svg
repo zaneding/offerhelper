@@ -1,0 +1,61 @@
+<svg width="1200" height="260" viewBox="0 0 1200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wfBg" x1="32" y1="18" x2="1156" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A1324"/>
+      <stop offset="1" stop-color="#13284A"/>
+    </linearGradient>
+    <linearGradient id="wfStroke" x1="80" y1="38" x2="1110" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DBEAFE" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#93C5FD" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="wfLine" x1="176" y1="128" x2="1026" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#BFDBFE"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="16" y="16" width="1168" height="228" rx="26" fill="url(#wfBg)"/>
+  <rect x="16.75" y="16.75" width="1166.5" height="226.5" rx="25.25" stroke="url(#wfStroke)" stroke-width="1.5"/>
+
+  <text x="54" y="56" fill="#F8FAFC" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Workflow</text>
+  <text x="54" y="84" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="16">Public skill logic + private runtime inputs</text>
+
+  <line x1="214" y1="142" x2="988" y2="142" stroke="url(#wfLine)" stroke-width="3"/>
+  <circle cx="214" cy="142" r="6" fill="#93C5FD"/>
+  <circle cx="408" cy="142" r="6" fill="#93C5FD"/>
+  <circle cx="602" cy="142" r="6" fill="#93C5FD"/>
+  <circle cx="796" cy="142" r="6" fill="#93C5FD"/>
+  <circle cx="988" cy="142" r="6" fill="#93C5FD"/>
+
+  <g>
+    <rect x="70" y="108" width="176" height="72" rx="18" fill="#F8FAFC" fill-opacity="0.06" stroke="#DBEAFE" stroke-opacity="0.16"/>
+    <text x="96" y="136" fill="#EFF6FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">1. Job Input</text>
+    <text x="96" y="160" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">URL or pasted JD</text>
+  </g>
+
+  <g>
+    <rect x="264" y="108" width="176" height="72" rx="18" fill="#F8FAFC" fill-opacity="0.06" stroke="#DBEAFE" stroke-opacity="0.16"/>
+    <text x="290" y="136" fill="#EFF6FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">2. Private Config</text>
+    <text x="290" y="160" fill="#BFDBFE" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" font-size="13">references/private-config.md</text>
+  </g>
+
+  <g>
+    <rect x="458" y="108" width="176" height="72" rx="18" fill="#F8FAFC" fill-opacity="0.06" stroke="#DBEAFE" stroke-opacity="0.16"/>
+    <text x="484" y="136" fill="#EFF6FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">3. Local Refresh</text>
+    <text x="484" y="160" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">Build references from</text>
+    <text x="484" y="178" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">private Markdown sources</text>
+  </g>
+
+  <g>
+    <rect x="652" y="108" width="176" height="72" rx="18" fill="#F8FAFC" fill-opacity="0.06" stroke="#DBEAFE" stroke-opacity="0.16"/>
+    <text x="678" y="136" fill="#EFF6FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">4. Tailoring</text>
+    <text x="678" y="160" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">Map role to evidence</text>
+    <text x="678" y="178" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">and template constraints</text>
+  </g>
+
+  <g>
+    <rect x="846" y="108" width="284" height="72" rx="18" fill="#F8FAFC" fill-opacity="0.06" stroke="#DBEAFE" stroke-opacity="0.16"/>
+    <text x="872" y="136" fill="#EFF6FF" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">5. Output</text>
+    <text x="872" y="160" fill="#BFDBFE" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="14">Resume edits, cover letter, or structured edit plan</text>
+  </g>
+</svg>
