@@ -1,6 +1,7 @@
 # Resume Template Layout Map
 
 Copy this file to your project's `references/resume-layout-map.md` and fill in your template's details.
+You can also generate or refresh it from a private Markdown source referenced in `references/private-config.md`.
 Private field IDs, edit URLs, and design IDs should live in `references/private-config.md` (outside version control).
 
 ---
