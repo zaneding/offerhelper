@@ -1,6 +1,7 @@
 # Candidate Profile — [Your Name]
 
 Copy this file to your project's `references/candidate-profile.md` and fill in your own information.
+You can also generate or refresh it from a private Markdown source referenced in `references/private-config.md`.
 Do NOT commit real contact details, private notes, or sensitive facts to a public repository.
 
 ---

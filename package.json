@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "readme:check": "node scripts/validate-readme.mjs",
-    "test": "npm run readme:check"
+    "privacy:check": "node scripts/validate-public-safety.mjs",
+    "test": "npm run readme:check && npm run privacy:check"
   },
   "keywords": ["claude", "claude-code", "plugin", "resume", "job-application", "cover-letter"],
   "author": "zaneding",

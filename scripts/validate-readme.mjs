@@ -40,6 +40,7 @@ const requiredSnippets = [
   ["## 快速开始", "Chinese quick start section"],
   ["## Quick Start", "English quick start section"],
   ["## FAQ", "FAQ section"],
+  ["Public repo ships no personal data", "public/private split note"],
   ["/plugin marketplace add offerhelper github:zaneding/offerhelper", "marketplace install command"],
   ["/plugin install offerhelper@offerhelper", "plugin install command"],
 ];
@@ -57,13 +58,12 @@ if (detailsOpenCount !== 2 || detailsCloseCount !== 2) {
 
 const referencedPaths = [
   ".claude-plugin/plugin.json",
+  ".gitignore",
   "LICENSE",
   "README.md",
-  "SKILL.md",
   "package.json",
-  "references/candidate-profile.md",
-  "references/canva-layout-map.md",
-  "references/private-config.example.md",
+  "scripts/validate-readme.mjs",
+  "scripts/validate-public-safety.mjs",
   "skills/offerhelper/SKILL.md",
   "skills/offerhelper/references/candidate-profile-template.md",
   "skills/offerhelper/references/private-config.example.md",
