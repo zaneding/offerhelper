@@ -1,0 +1,14 @@
+{
+  "name": "offerhelper",
+  "version": "1.0.0",
+  "description": "Claude Code skill — tailor job application documents to a specific role",
+  "type": "module",
+  "scripts": {
+    "readme:check": "node scripts/validate-readme.mjs",
+    "test": "npm run readme:check"
+  },
+  "keywords": ["claude", "claude-code", "plugin", "resume", "job-application", "cover-letter"],
+  "author": "zaneding",
+  "license": "MIT",
+  "homepage": "https://github.com/zaneding/offerhelper"
+}

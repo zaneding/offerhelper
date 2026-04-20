@@ -1,0 +1,9 @@
+{
+  "name": "offerhelper",
+  "description": "Job application skill — analyzes a job posting and tailors your resume and cover letter to the role. Supports any resume template and any target language.",
+  "author": {
+    "name": "zaneding",
+    "url": "https://github.com/zaneding/offerhelper"
+  },
+  "version": "1.0.0"
+}
