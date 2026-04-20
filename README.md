@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/zaneding/offerhelper"><img src="https://img.shields.io/badge/repo-offerhelper-111111?style=flat-square" alt="Repository"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-0b57d0?style=flat-square" alt="MIT License"></a>
-  <a href="./.claude-plugin/plugin.json"><img src="https://img.shields.io/badge/Claude-Code%20Plugin-available-cb6ce6?style=flat-square" alt="Claude Code Plugin"></a>
-  <a href="#中文"><img src="https://img.shields.io/badge/README-%E4%B8%AD%E6%96%87%20%2F%20English-1f6feb?style=flat-square" alt="Bilingual README"></a>
+  <a href="https://github.com/zaneding/offerhelper"><img src="https://img.shields.io/badge/Repo-offerhelper-111111?style=flat-square" alt="Repository"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/License-MIT-0b57d0?style=flat-square" alt="MIT License"></a>
+  <a href="./.claude-plugin/plugin.json"><img src="https://img.shields.io/badge/Plugin-Claude_Code-cb6ce6?style=flat-square" alt="Claude Code Plugin"></a>
+  <a href="#中文"><img src="https://img.shields.io/badge/README-Bilingual-1f6feb?style=flat-square" alt="Bilingual README"></a>
 </p>
 
 <p align="center">
