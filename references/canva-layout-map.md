@@ -1,66 +1,90 @@
-# Canva Layout Map — Public Reference
-
-This file describes the logical edit areas of the resume template without exposing
-private template identifiers, edit URLs, or element IDs. Store those values in a
-private config file and keep this public file focused on behavior and boundaries.
-
-## Template Assumptions
-- The current workflow assumes a two-column resume layout with a header area, an experience column, and a skills column.
-- The preferred template supports dynamic text boxes so content can expand without fixed-height clipping.
-- Even with dynamic sizing, edited text should stay concise to preserve readability and balance.
-
-## Editable Logical Areas
-
-### 1. Subtitle / Target Role Line
-- Purpose: align the visible target role with the current application.
-- Content style: short role-oriented phrase matching the JD vocabulary.
-- Typical use: convert a generic engineer title into a role-specific headline.
-
-### 2. Current-Role Achievement Bullets
-- Purpose: surface the strongest, most recent evidence for the target job.
-- Content limit: **strictly 4 bullets maximum**; each bullet must fit on **one line** (≤ 90 characters including leading dash and space).
-- If a bullet would exceed 90 characters, split it into two shorter bullets or trim to the most impactful fragment — never let it wrap onto a second line inside the template text box.
-- Prioritization:
-  - direct JD match first
-  - measurable or concrete work second
-  - domain relevance before generic claims
-
-### 3. Prior-Experience Block
-- Purpose: cover secondary JD signals not already proven in the current role.
-- Content style: concise summary of earlier relevant experience.
-- **Hard character limit: ≤ 300 characters total** for this block (including all line breaks). Count before writing.
-- Typical use: reinforce supplier-side perspective, earlier automotive exposure, or adjacent engineering context.
-- If verified detail is missing, keep this block short and factual.
-
-### 4. Skills List
-- Purpose: make keyword alignment legible for human and ATS-style scanning.
-- Content limit: **up to 10 items**; each item ≤ 25 characters.
-- Ordering rule: place JD-priority skills first.
-- Do not pad the list with weak or unverified keywords.
-
-## Protected Areas
-- Education
-- Languages
-- Contact details
+# Canva Template Layout Map — DAHHVMTPJIg
+New template (replaces DAHHVLmJjNQ — old template had fixed-height boxes causing overlaps)
+ 
+**Design ID**: `DAHHVMTPJIg`
+**Edit URL**: https://www.canva.com/d/5yQTnHuNEN5sUU9
+**Style**: Dark navy header, photo top-right, two-column body (white background)
+ 
+## Key advantage over old template
+All text boxes are **dynamically sized** — they expand with content. No fixed-height overflow issues.
+ 
+---
+ 
+## Element ID Map (page_id: PBRmJK6zMjKljv3w)
+ 
+### HEADER (do not change unless personalizing)
+| element_id suffix | content | notes |
+|---|---|---|
+| LBvd0cbRrF4GKqmX-LB4HCvsBf9brnJk6 | Name: "Zijian Ding" | |
+| LBvd0cbRrF4GKqmX-LB6PXjdfsfjsn2fQ | Subtitle/role line | update per job |
+| LBv938Ttq8g9R3X5-LBPlPLh8BWbQ3ByM | Phone + email | fixed |
+| LBv938Ttq8g9R3X5-LBwDM5YMrS7tKHVc | Address + LinkedIn | fixed |
+| LBrh59TWSt2YM5HG | Button label ("LinkedIn") | fixed |
+| LBBKpJ9tltMD7WrD | Profile photo (fill) | asset_id: MAHHVDYfg2E |
+ 
+### LEFT COLUMN — BERUFSERFAHRUNG
+Section header: `LBhP7Jf29DDSPNdD` ("Berufserfahrung") — do not edit
+> ⚠️ 模板更新后：左列元素 left 约为 **95.35**（原 110.83），Berufserfahrung header left 约 **88.39**（原 110.83）
+ 
+**BMW Group via Yer Deutschland** (02.2023–01.2026)
+| element_id suffix | content |
+|---|---|
+| LBvzlcVJHVS2j6M8-LBVK26GVnfn4jyH6 | Job title (bold) |
+| LBvzlcVJHVS2j6M8-LBXBZlPZYzFgpls6 | Company name |
+| LBvzlcVJHVS2j6M8-LB9MdWWhBW8y4hTv | Date |
+| LBvzlcVJHVS2j6M8-LBLkthL5LsgHHHQh | Location |
+| LBvzlcVJHVS2j6M8-LBXcpqJVF0RQWy2j | **Bullets** (dynamic height, \n between items) |
+ 
+**Dräxlmaier Group** (02.2022–01.2023)
+| element_id suffix | content |
+|---|---|
+| LBvzlcVJHVS2j6M8-LBg2qrFlGdsCwVxV | Job title (bold) |
+| LBvzlcVJHVS2j6M8-LBgNX8h8fvgR0vRJ | Company name |
+| LBvzlcVJHVS2j6M8-LBbxFfSFwg9RC58X | Date |
+| LBvzlcVJHVS2j6M8-LBmFrrX5HdSXfGPZ | Location |
+| LBvzlcVJHVS2j6M8-LBPCLTvB7ZQL6yPY | **Bullets + Praktikum block** (dynamic height) |
+ 
+Note: Praktikum & Masterarbeit is embedded in the Dräxlmaier bullet box as a plain-text sub-section.
+Format: `\n\nPraktikum & Masterarbeit  |  BMW Group  |  10.2020 – 01.2022\n[bullets]`
+ 
+### RIGHT COLUMN — KOMPETENZEN
+Section header: `LBS3nt1zqXmCl7T0` ("Kompetenzen") — do not edit
+> ⚠️ 模板更新后：`LB7vTG8dhxBKYHQH` 的 left 约为 **491.11**（原 500.34），width 约为 **276.92**（原 210.41）
+ 
+| element_id suffix | content |
+|---|---|
+| LB7vTG8dhxBKYHQH | Skills list (\n between items, dynamic height) |
+ 
+### RIGHT COLUMN — AUSBILDUNG + SPRACHEN (DO NOT CHANGE)
+| element_id suffix | content |
+|---|---|
+| LBYxH2hHLStzkDnk | "Ausbildung" header |
+| LB4q96PVG143mG0C-LB7znJvdBDyrBpr4 | M.Sc. Elektrotechnik |
+| LB4q96PVG143mG0C-LBVr8lb0NgH9Ydq7 | Technische Universität Berlin |
+| LB4q96PVG143mG0C-LBb8TDTcwZGWB9Rh | 2018 – 2022 |
+| LB4q96PVG143mG0C-LBC5YQ8KpzPP6TqS | Focus M.Sc. |
+| LB4q96PVG143mG0C-LBhYBynR9whD9Cy9 | B.Sc. Elektrotechnik & Automatisierung |
+| LB4q96PVG143mG0C-LBHG7PjvHs9GGbfc | Dalian Maritime Universität |
+| LB4q96PVG143mG0C-LB7tr1LBPGd0BtmK | 2013 – 2017 |
+| LB4q96PVG143mG0C-LB5gS5YmglxBjk1N | BSc Focus + Sprachen block |
+ 
+---
+ 
+## Per-job optimization rules
+ 
+### What to change per job:
+1. **Subtitle** (LB6PXjdfsfjsn2fQ) — tailor role title to job posting
+2. **BMW bullets** (LBXcpqJVF0RQWy2j) — lead with most relevant keywords from JD
+3. **Dräxlmaier+Praktikum block** (LBPCLTvB7ZQL6yPY) — echo remaining JD keywords
+4. **Kompetenzen** (LB7vTG8dhxBKYHQH) — reorder: put top JD skills first, max 10 items
+### What NOT to change:
+- All Ausbildung elements
+- Sprachen block (embedded in LB5gS5YmglxBjk1N)
+- Header contact info
 - Photo
 - Section headers
-
-Do not edit protected areas unless the user explicitly requests a template or identity change.
-
-## Per-Job Edit Rules
-- Update exactly 4 logical content areas per application:
-  - subtitle / target role line
-  - current-role bullets
-  - prior-experience block
-  - skills list
-- Keep wording consistent with the verified candidate profile.
-- Prefer truthful compression over keyword-heavy rewrites.
-- Record operator notes for each changed area:
-  - what changed
-  - which keywords were introduced or removed
-  - why the change improves job fit
-
-## Failure and Fallback Rules
-- If private template metadata is missing, do not guess element IDs or claim the edit succeeded.
-- If edit capability is unavailable, return a structured manual edit plan mapped to the 4 logical areas.
-- If the updated content would visibly overload the template, trim weaker bullets before touching protected areas.
+### Content reminders for each edit:
+- Always note which 3 elements changed and what keywords were added
+- BMW bullets: max 4 items, each one line
+- Kompetenzen: max 10 items, one per \n
+- No overlap possible (dynamic boxes) — but keep content concise for visual quality
