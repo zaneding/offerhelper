@@ -82,6 +82,7 @@ Treat a local reference file as incomplete when:
 - Read `references/candidate-profile.md` before tailoring any content.
 - Read `references/resume-layout-map.md` before changing the resume layout.
 - Use `skills/offerhelper/references/*.md` only as public templates, not as private source-of-truth files.
+- **Never edit the master template (`master_template_id`) directly.** It is read-only after initial setup. Always duplicate it first and work on the copy.
 
 ## Required Inputs
 
@@ -159,22 +160,37 @@ Examples:
 
 Apply this formula to all current-role bullets before writing them into the template.
 
-### 4. Update the Resume Template
+### 4. Duplicate the Master Template
+
+Before making any edits, create a per-job copy of the master:
+
+1. Read `master_template_id` from `references/private-config.md`.
+2. In Canva, open the master design and select **"..." → "Make a copy"** to create a new job-specific copy.
+3. Record the new copy's `design_id` and `edit_url`.
+4. All edits in Steps 4 and 5 happen on this copy only. Never open or modify `master_template_id`.
+5. If Canva MCP duplication is available, use it instead of manual steps — but verify the result is a new independent design before proceeding.
+
+If duplication cannot be confirmed, stop and ask the user to create the copy manually before continuing.
+
+### 5. Update the Resume Copy
+
+Using the per-job copy from Step 4:
 
 - Only perform direct template editing when the required private config and editing capability are available.
 - Follow the logical field rules in `references/resume-layout-map.md`.
 - Update only the editable zones defined in that file.
 - Do not change education, languages, contact details, photo, or section headers unless the user explicitly requests it.
 - Respect the hard character and line limits in `references/resume-layout-map.md`. Trim rather than overflow.
+- Keep Kompetenzen to a maximum of 12 items so it does not overlap with the Ausbildung section.
 - If editing capability or private template metadata is missing, produce a structured edit plan instead of pretending the edit was completed.
 
-### 5. Export the Resume
+### 6. Export the Resume
 
-- Export only after the template update is complete.
+- Export only after the resume copy update is complete.
 - If export succeeds, return the resume artifact link or file path.
 - If export fails, report the failure briefly and give the next manual step needed to finish the export.
 
-### 6. Generate the Cover Letter
+### 7. Generate the Cover Letter
 
 - Produce a cover letter in the format and language specified in `references/private-config.md`.
 - Keep it to one A4 page unless the user explicitly requests otherwise.
