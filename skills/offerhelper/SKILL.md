@@ -221,6 +221,8 @@ After both documents are ready, create a job-specific output folder and save all
    - Application date (YYYY-MM-DD)
    - Job posting URL (if provided)
    - Canva edit URL of the per-job copy
+   - **Top 3 screening criteria** from the hiring-manager perspective (from Step 1)
+   - Summary of which CV elements were highlighted and why (subtitle, key bullets, Kompetenzen order)
 
 The final `~/Downloads/<Company>_<JobTitle>/` folder must contain exactly:
 - `CV_ZijianDing.pdf`
