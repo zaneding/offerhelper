@@ -20,24 +20,31 @@
   <a href="#中文">中文</a> · <a href="#english">English</a>
 </p>
 
-OfferHelper is a Claude Code skill and plugin workflow for application tailoring. The public repo ships only reusable skill logic, templates, and onboarding. Personal candidate data, live Canva metadata, and private notes stay in a separate private repo or ignored local files, accessed through a single runtime interface: `references/private-config.md`. In this setup, the private source-of-truth repo can be `offerhelpe_privat`.
+OfferHelper is a Claude Code skill and plugin workflow for application tailoring. The public repo ships only reusable skill logic, templates, and onboarding. Personal candidate data, live Canva metadata, and private notes stay in a separate private repo or ignored local files, accessed through a single runtime interface: `references/private-config.md`.
 
 > GitHub README does not support real tab components by default. This file uses GitHub-native `<details>` sections as the most stable bilingual switch pattern.
 
 ## At a Glance
 
-- Input: job posting URL or pasted JD
-- Output: tailored resume, cover letter, or a structured edit plan
-- Public repo ships no personal data
-- Private data enters only through local `references/private-config.md`
-- Users can fill `references/` manually or let Claude generate/enrich it from private Markdown sources
+| | |
+|---|---|
+| **Input** | Job posting URL or pasted JD |
+| **Output** | `~/Downloads/<Company>_<JobTitle>/` with CV PDF, Anschreiben `.docx`, and `data.md` |
+| **Resume editing** | Canva MCP — edits a per-job copy, never the master template |
+| **Cover letter** | Word By Anthropic MCP connector — DIN 5008, Arial 11pt, one A4 page |
+| **Application log** | `data.md` per job — top 3 screening criteria, CV rationale, edit link |
+| **Privacy** | Public repo carries no real candidate data, Canva IDs, or contact info |
 
-## Why OfferHelper
+## Output Structure
 
-- Privacy-first: the public repo carries no real candidate profile, contact data, Canva IDs, or edit URLs
-- Template-aware: tailoring is designed to fit a mapped resume template, not just rewrite text in isolation
-- Claude-native: the project is structured as a real Claude Code plugin with one public skill entry under `skills/offerhelper/`
-- Practical workflow: supports both manual setup and private-source-driven generation of local reference files
+Every completed application produces a self-contained folder in `~/Downloads/`:
+
+```text
+~/Downloads/<Company>_<JobTitle>/
+├── CV_ZijianDing.pdf            ← Canva export, per-job copy
+├── Anschreiben_ZijianDing.docx  ← DIN 5008, generated via Word MCP connector
+└── data.md                      ← job metadata + top 3 screening criteria + CV rationale
+```
 
 ## Quick Install
 
@@ -63,11 +70,11 @@ OfferHelper is a Claude Code skill and plugin workflow for application tailoring
 - [为什么用它](#cn-why)
 - [快速开始](#cn-quickstart)
 - [首次配置](#cn-setup)
+- [工作流](#cn-workflow)
+- [输出结构](#cn-output)
+- [Canva MCP 工具](#cn-canva-mcp)
 - [Public / Private 分层](#cn-split)
 - [私有接口：private-config](#cn-private-config)
-- [使用场景](#cn-use-cases)
-- [工作流](#cn-workflow)
-- [Requirements](#cn-requirements)
 - [仓库结构](#cn-structure)
 - [FAQ](#cn-faq)
 
@@ -77,17 +84,11 @@ OfferHelper is a Claude Code skill and plugin workflow for application tailoring
 
 `OfferHelper` 是一个面向 Claude Code 的求职材料定制 skill。它读取职位链接或职位描述，结合候选人资料、简历模板映射和运行时配置，生成：
 
-- 定制版简历内容
-- 定制版求职信
-- 可直接落到模板里的编辑内容
-- 在编辑能力缺失时的结构化 edit plan
+- 定制版简历内容（通过 Canva MCP 直接编辑模板副本）
+- DIN 5008 格式的德语 Anschreiben（通过 Word By Anthropic MCP connector 生成 `.docx`）
+- 每次申请的结构化记录文件 `data.md`
 
-它不是一个“只会堆关键词”的 README 项目，而是一条完整工作流：
-
-- 先理解岗位
-- 再映射候选人证据
-- 再约束到模板结构
-- 最后输出能投递的内容
+完整输出落在一个以岗位命名的文件夹里：`~/Downloads/<Company>_<JobTitle>/`
 
 <a id="cn-why"></a>
 
@@ -95,10 +96,11 @@ OfferHelper is a Claude Code skill and plugin workflow for application tailoring
 
 | 优势 | 说明 |
 |---|---|
-| 隐私优先 | 公开仓库不携带你的真实候选人资料、联系方式、Canva 元数据 |
-| 模板感知 | 输出不是纯文本，而是面向 `resume-layout-map` 的结构化改写 |
-| 适合长期维护 | 公开版做分发，私有 repo 保留真实 source-of-truth |
-| 兼顾自动化与手工 | 可手填 `references/`，也可让 Claude 从私有 Markdown 源生成 |
+| 隐私优先 | 公开仓库不携带真实候选人资料、联系方式、Canva 元数据 |
+| 模板感知 | 输出面向 `resume-layout-map` 结构化改写，而非自由文本 |
+| 每次申请留痕 | `data.md` 记录岗位信息、筛选标准、CV 调整说明，方便复盘 |
+| 不改动母版 | 每次申请基于 master 副本编辑，母版始终只读 |
+| 原生 Claude 工具链 | 简历用 Canva MCP，Anschreiben 用 Word MCP connector |
 
 <a id="cn-quickstart"></a>
 
@@ -113,135 +115,118 @@ OfferHelper is a Claude Code skill and plugin workflow for application tailoring
 
 ### 2. 创建本地 `references/`
 
-```text
-references/
-```
-
 从公开模板复制出以下本地文件：
 
-- `references/candidate-profile.md`
-- `references/resume-layout-map.md`
-- `references/private-config.md`
-
-模板来源：
-
-- `skills/offerhelper/references/candidate-profile-template.md`
-- `skills/offerhelper/references/resume-layout-map-template.md`
-- `skills/offerhelper/references/private-config.example.md`
+```text
+skills/offerhelper/references/candidate-profile-template.md  →  references/candidate-profile.md
+skills/offerhelper/references/resume-layout-map-template.md  →  references/resume-layout-map.md
+skills/offerhelper/references/private-config.example.md      →  references/private-config.md
+```
 
 ### 3. 开始使用
 
 ```text
 这是我想申请的岗位：[职位链接或 JD]
-请根据这个岗位帮我定制简历，并生成 cover letter。
 ```
+
+默认输出完整套餐（简历 + Anschreiben），无需额外说明。
 
 <a id="cn-setup"></a>
 
 ## 首次配置
 
-推荐按这四步初始化：
-
-1. 从 `skills/offerhelper/references/` 复制三个公开模板到本地 `references/`
-2. 填写 `references/private-config.md`
-3. 如果你维护私有 repo，把真实资料路径写进去
-4. 让 Claude 先生成或刷新：
-   - `references/candidate-profile.md`
-   - `references/resume-layout-map.md`
-
-需要优先刷新本地 references 的情况：
-
-- 文件不存在
-- 文件仍是模板占位符
-- 模板已经改版
-- 你的候选人资料已经更新
-
-<a id="cn-split"></a>
-
-## Public / Private 分层
-
-### 公开 `main` 包含什么
-
-- 插件元数据
-- 可安装的公开 skill：`skills/offerhelper/SKILL.md`
-- 公开模板与示例配置
-- README 与校验脚本
-
-### 私有 repo 或本地忽略文件包含什么
-
-- 真实候选人经历
-- 真实联系方式
-- Canva 设计 ID、编辑链接、page ID、field ID
-- 私有工作流笔记
-- 可被 Claude 读取的 private Markdown source files
-
-### 推荐使用方式
-
-1. 保持这个仓库为公开、可分发版本
-2. 另建一个 private repo 保存你的真实资料，例如 `offerhelpe_privat`
-3. 在本地工作目录里创建 `references/private-config.md`
-4. 在 `private-config.md` 中写入私有 Markdown 文件路径
-5. 让 Claude 读取这些私有源文件并生成或补全本地 `references/` 文件
-
-<a id="cn-private-config"></a>
-
-## 私有接口：`private-config`
-
-公开 skill 只通过一个入口读取私有配置：
-
-```text
-references/private-config.md
-```
-
-这个文件可以放：
-
-- 联系方式和候选人身份信息
-- 模板元数据：design ID、page ID、edit URL
-- 逻辑字段 ID 映射
-- 输出偏好
-- 可选的私有 Markdown 源文件路径
-
-推荐路径示例（以私有仓库 `offerhelpe_privat` 为例）：
-
-```text
-candidate_source_path: ../offerhelpe_privat/candidate-source.md
-resume_layout_source_path: ../offerhelpe_privat/layout-source.md
-contact_source_path: ../offerhelpe_privat/contact-source.md
-cover_letter_source_path: ../offerhelpe_privat/cover-letter-source.md
-```
-
-如果这些路径存在，Claude 应先读取它们，再生成或补全本地 `references/` 文件；如果不存在，就回退到公开模板并要求用户手工补齐。
-
-<a id="cn-use-cases"></a>
-
-## 使用场景
-
-- 高频海投相似岗位，但想保留真实、可验证的经历表达
-- 已经有固定 Canva 或其他模板，不想每次手工改版
-- 想把公开技能仓库和私人求职资产彻底分开
-- 想让 Claude 先整理候选人资料，再做岗位定制
+1. 从 `skills/offerhelper/references/` 复制三个模板到本地 `references/`
+2. 填写 `references/private-config.md`（联系方式、Canva master template ID 等）
+3. 如果维护私有 repo，把真实资料路径写进 `private-config.md`
+4. 首次使用时，让 Claude 先生成或刷新 `references/candidate-profile.md` 和 `references/resume-layout-map.md`
 
 <a id="cn-workflow"></a>
 
 ## 工作流
 
-1. 分析岗位并提取核心要求
-2. 读取本地 `references/private-config.md`
-3. 如有私有源文件路径，读取这些私有 Markdown
-4. 若本地 `references/candidate-profile.md` 或 `references/resume-layout-map.md` 缺失或不完整，先生成或刷新
-5. 基于候选人资料和 layout map 做岗位定制
-6. 直接编辑模板，或输出结构化编辑方案
-7. 生成求职信
+```
+1. 分析岗位     →  提取核心要求，确定角色类型（DA / BA / Strategy）
+2. 制定策略     →  映射候选人证据，起草四个内容区域
+3. 复制母版     →  在 Canva 中从 master 创建副本（每岗位独立）
+4. 编辑副本     →  通过 Canva MCP 更新 subtitle、bullets、Kompetenzen
+5. 导出 PDF     →  下载至本地
+6. 生成 Anschreiben  →  Word MCP connector，一页，DIN 5008，Arial 11pt
+7. 打包输出     →  创建 ~/Downloads/<Company>_<JobTitle>/，写入 data.md
+```
 
-<a id="cn-requirements"></a>
+<a id="cn-output"></a>
 
-## Requirements
+## 输出结构
 
-- 已安装 Claude Code
-- 一个本地 `references/` 目录
-- 至少一份 candidate profile 和一份 layout map
-- 可选：单独 private repo，例如 `offerhelpe_privat`
-- 可选：Canva 或其他模板工具的真实元数据
+每次申请完成后，Downloads 里新增一个以岗位命名的文件夹：
+
+```text
+~/Downloads/<Company>_<JobTitle>/
+├── CV_ZijianDing.pdf            ← Canva 导出，per-job 副本
+├── Anschreiben_ZijianDing.docx  ← DIN 5008，Word MCP connector 生成
+└── data.md                      ← 岗位元数据 + Top 3 筛选标准 + CV 调整说明
+```
+
+`data.md` 示例：
+
+```markdown
+# Bewerbung
+| 公司 | Wiz |
+| 岗位 | Technical Account Manager |
+| 日期 | 2026-04-22 |
+| Canva 编辑链接 | https://... |
+
+## Top-Screening-Kriterien
+1. Enterprise Stakeholder Management
+2. Cloud Security 技术能力
+3. 客户成功 / KPI 追踪
+
+## CV 调整说明
+- Subtitle → "Technical Account Manager | Cloud Security & Stakeholder Management"
+- BMW bullets → 以 Eskalationskoordination 和 KPI-Automatisierung 领衔
+```
+
+<a id="cn-canva-mcp"></a>
+
+## Canva MCP 工具
+
+`mcp/canva-tools/` 是一个自定义 MCP server，通过 Canva Connect API 自动复制 master 模板：
+
+```text
+mcp/canva-tools/
+├── server.mjs   ← MCP server，暴露 duplicate_design tool
+├── auth.mjs     ← OAuth token 刷新（读取 .env）
+├── setup.mjs    ← 一次性 PKCE 授权流程
+└── package.json
+```
+
+**配置步骤：**
+
+```bash
+cd mcp/canva-tools
+npm install
+node setup.mjs   # 一次性授权，写入 CANVA_REFRESH_TOKEN 到 .env
+```
+
+在 `~/.claude/settings.json` 中注册后，`duplicate_design` tool 即可在 Claude 会话中使用。
+
+> 本地调试需配合 ngrok（Canva OAuth redirect URI 要求 HTTPS）。OAuth 配置完成前，可在 Canva 桌面 App 中手动创建副本并提供编辑链接。
+
+<a id="cn-split"></a>
+
+## Public / Private 分层
+
+**公开 `main` 包含：** 插件元数据、公开 skill、公开模板、Canva MCP server 代码（不含 `.env`）、README
+
+**私有 repo 或本地忽略文件包含：** 真实候选人经历、联系方式、Canva IDs、`references/private-config.md`、`.env`
+
+<a id="cn-private-config"></a>
+
+## 私有接口：`private-config`
+
+公开 skill 通过一个入口读取私有配置：`references/private-config.md`
+
+可包含：联系方式、template ID、edit URL、field mapping、私有 Markdown 源文件路径。
 
 <a id="cn-structure"></a>
 
@@ -258,38 +243,46 @@ offerhelper/
 │           ├── candidate-profile-template.md
 │           ├── resume-layout-map-template.md
 │           └── private-config.example.md
+├── mcp/
+│   └── canva-tools/          ← Canva Connect API MCP server
+│       ├── server.mjs
+│       ├── auth.mjs
+│       ├── setup.mjs
+│       └── package.json
 ├── scripts/
 │   ├── validate-readme.mjs
-│   └── validate-public-safety.mjs
+│   ├── validate-public-safety.mjs
+│   └── canva-duplicate.mjs   ← 独立 CLI（备用）
 ├── .gitignore
 ├── package.json
 └── README.md
 ```
 
-本地运行时通常还会有一个被忽略的目录：
+本地运行时（被 `.gitignore` 排除）：
 
 ```text
 references/
 ├── candidate-profile.md
 ├── resume-layout-map.md
 └── private-config.md
+.env   ← CANVA_CLIENT_ID / SECRET / REFRESH_TOKEN
 ```
 
 <a id="cn-faq"></a>
 
 ## FAQ
 
-### 我还能用 Canva 吗？
+**母版会被修改吗？**  
+不会。每次申请先复制 master，所有编辑都在副本上进行。
 
-可以。公开版不再提交真实 Canva 信息，但私有 `private-config.md` 仍然可以保存 design ID、page ID、edit URL 和字段 ID。
+**Anschreiben 会弹出 Word 吗？**  
+Word 会短暂在后台打开，由 MCP connector 写入文件。不需要手动操作。
 
-### 私有资料一定要放单独 private repo 吗？
+**Canva MCP 需要先配置 OAuth 吗？**  
+是的，运行一次 `node mcp/canva-tools/setup.mjs`。未配置时，可手动在 Canva App 创建副本并提供编辑链接。
 
-不一定。你也可以只放在本地忽略目录里。单独 private repo 只是更适合长期维护和备份。
-
-### 为什么公开 repo 不再带真实 `references/`？
-
-因为这些文件会逐步积累真实经历、公司、学校和模板元数据。公开版只保留模板，避免误泄露。
+**私有资料一定要放 private repo 吗？**  
+不必须。本地忽略文件就够，private repo 只是长期维护更清晰。
 
 </details>
 
@@ -304,11 +297,11 @@ references/
 - [Why Use It](#en-why)
 - [Quick Start](#en-quickstart)
 - [First-Time Setup](#en-setup)
+- [Workflow](#en-workflow)
+- [Output Structure](#en-output)
+- [Canva MCP Tool](#en-canva-mcp)
 - [Public / Private Split](#en-split)
 - [Private Interface: private-config](#en-private-config)
-- [Use Cases](#en-use-cases)
-- [Workflow](#en-workflow)
-- [Requirements](#en-requirements)
 - [Repository Structure](#en-structure)
 - [FAQ](#en-faq)
 
@@ -316,19 +309,13 @@ references/
 
 ## Positioning
 
-`OfferHelper` is a Claude Code skill for tailoring application materials to a job posting. It combines a job description with candidate evidence, template constraints, and runtime configuration to produce:
+`OfferHelper` is a Claude Code skill for tailoring job application materials. It reads a job posting URL or pasted JD and produces:
 
-- tailored resume content
-- a tailored cover letter
-- template-ready edits
-- a structured edit plan when direct editing is unavailable
+- tailored resume content edited directly into a Canva template copy via Canva MCP
+- a German DIN 5008 cover letter as `.docx` via the Word By Anthropic MCP connector
+- a structured application log `data.md` per job
 
-This is not just a keyword optimizer. The workflow is:
-
-- understand the role
-- map verified candidate evidence
-- constrain the result to a resume layout
-- produce something usable for an actual application
+All output lands in a single named folder: `~/Downloads/<Company>_<JobTitle>/`
 
 <a id="en-why"></a>
 
@@ -336,10 +323,11 @@ This is not just a keyword optimizer. The workflow is:
 
 | Advantage | Description |
 |---|---|
-| Privacy-first | The public repo ships no real candidate profile, contact info, or Canva metadata |
-| Template-aware | Output is shaped to a `resume-layout-map`, not treated as free-form text only |
-| Maintainable | Public repo stays distributable while a private repo keeps your source-of-truth |
-| Flexible | You can fill `references/` manually or let Claude generate it from private sources |
+| Privacy-first | Public repo ships no real candidate profile, contact info, or Canva metadata |
+| Template-aware | Output is shaped to a `resume-layout-map`, not free-form text |
+| Per-application audit trail | `data.md` records job info, screening criteria, and CV change rationale |
+| Master stays untouched | Every application works on a per-job copy — master is read-only |
+| Native Claude toolchain | Canva MCP for resume, Word MCP connector for cover letter |
 
 <a id="en-quickstart"></a>
 
@@ -355,134 +343,92 @@ This is not just a keyword optimizer. The workflow is:
 ### 2. Create local `references/`
 
 ```text
-references/
+skills/offerhelper/references/candidate-profile-template.md  →  references/candidate-profile.md
+skills/offerhelper/references/resume-layout-map-template.md  →  references/resume-layout-map.md
+skills/offerhelper/references/private-config.example.md      →  references/private-config.md
 ```
-
-Create these local runtime files from the public templates:
-
-- `references/candidate-profile.md`
-- `references/resume-layout-map.md`
-- `references/private-config.md`
-
-Template sources:
-
-- `skills/offerhelper/references/candidate-profile-template.md`
-- `skills/offerhelper/references/resume-layout-map-template.md`
-- `skills/offerhelper/references/private-config.example.md`
 
 ### 3. Start using it
 
 ```text
 Here is the job posting: [URL or pasted JD]
-Please tailor my resume and generate a cover letter for this role.
 ```
+
+Default output is the full package (CV + Anschreiben). No further prompt needed.
 
 <a id="en-setup"></a>
 
 ## First-Time Setup
 
-Recommended first-run sequence:
-
 1. Copy the three public templates from `skills/offerhelper/references/` into local `references/`
-2. Fill `references/private-config.md`
-3. If you maintain a private repo, add your real source file paths there
-4. Ask Claude to generate or refresh:
-   - `references/candidate-profile.md`
-   - `references/resume-layout-map.md`
-
-Refresh those local reference files first if:
-
-- a file is missing
-- placeholders are still present
-- the template changed
-- your candidate source-of-truth changed
-
-<a id="en-split"></a>
-
-## Public / Private Split
-
-### What public `main` contains
-
-- plugin metadata
-- the installable public skill at `skills/offerhelper/SKILL.md`
-- public templates and example config
-- README and validation scripts
-
-### What stays in a private repo or ignored local files
-
-- real candidate experience
-- real contact details
-- Canva design IDs, edit URLs, page IDs, and field IDs
-- private workflow notes
-- private Markdown source files that Claude may read at runtime
-
-### Recommended operating model
-
-1. Keep this repo public and distributable
-2. Store your real source-of-truth files in a separate private repo such as `offerhelpe_privat`
-3. Create local `references/private-config.md`
-4. Put private Markdown source paths into that config
-5. Let Claude read those private sources and generate or refresh local `references/` files
-
-<a id="en-private-config"></a>
-
-## Private Interface: `private-config`
-
-The public skill reads private runtime data through one interface only:
-
-```text
-references/private-config.md
-```
-
-That file can hold:
-
-- candidate identity and contact values
-- template metadata such as design ID, page ID, and edit URL
-- logical field mappings
-- output preferences
-- optional file paths to private Markdown sources
-
-Example path entries using a private repo named `offerhelpe_privat`:
-
-```text
-candidate_source_path: ../offerhelpe_privat/candidate-source.md
-resume_layout_source_path: ../offerhelpe_privat/layout-source.md
-contact_source_path: ../offerhelpe_privat/contact-source.md
-cover_letter_source_path: ../offerhelpe_privat/cover-letter-source.md
-```
-
-If those paths exist, Claude should read them first and use them to build or enrich local `references/` files. If they do not exist, the skill should fall back to the public templates and ask the user to complete the setup manually.
-
-<a id="en-use-cases"></a>
-
-## Use Cases
-
-- repeated applications to similar roles with truthful tailoring
-- fixed Canva or non-Canva resume templates that should be updated instead of rebuilt
-- teams or individuals who want a clean public repo and a separate private source-of-truth
-- workflows where Claude first organizes candidate evidence, then tailors job materials
+2. Fill `references/private-config.md` (contact info, Canva master template ID, etc.)
+3. If you maintain a private repo, add source file paths to `private-config.md`
+4. On first run, let Claude generate or refresh `candidate-profile.md` and `resume-layout-map.md`
 
 <a id="en-workflow"></a>
 
 ## Workflow
 
-1. Analyze the job posting
-2. Read local `references/private-config.md`
-3. Read any referenced private Markdown sources if they exist
-4. Generate or refresh `references/candidate-profile.md` and `references/resume-layout-map.md` when they are missing or incomplete
-5. Tailor resume content using the candidate profile and layout map
-6. Update the template directly or return a structured edit plan
-7. Generate the cover letter
+```
+1. Analyze job       →  extract requirements, classify role type (DA / BA / Strategy)
+2. Build strategy    →  map candidate evidence, draft four content zones
+3. Duplicate master  →  create a per-job Canva copy (master stays read-only)
+4. Edit copy         →  update subtitle, bullets, Kompetenzen via Canva MCP
+5. Export PDF        →  download locally
+6. Generate Anschreiben  →  Word MCP connector, one page, DIN 5008, Arial 11pt
+7. Package output    →  create ~/Downloads/<Company>_<JobTitle>/, write data.md
+```
 
-<a id="en-requirements"></a>
+<a id="en-output"></a>
 
-## Requirements
+## Output Structure
 
-- Claude Code installed
-- a local `references/` directory
-- at least one candidate profile and one layout map
-- optional separate private repo such as `offerhelpe_privat`
-- optional Canva or other template metadata
+Each completed application adds a named folder to `~/Downloads/`:
+
+```text
+~/Downloads/<Company>_<JobTitle>/
+├── CV_ZijianDing.pdf            ← Canva export, per-job copy
+├── Anschreiben_ZijianDing.docx  ← DIN 5008, generated via Word MCP connector
+└── data.md                      ← job metadata + top 3 screening criteria + CV rationale
+```
+
+<a id="en-canva-mcp"></a>
+
+## Canva MCP Tool
+
+`mcp/canva-tools/` is a custom MCP server for duplicating the master Canva template via the Canva Connect API:
+
+```text
+mcp/canva-tools/
+├── server.mjs   ← MCP server exposing the duplicate_design tool
+├── auth.mjs     ← OAuth token refresh (reads .env)
+├── setup.mjs    ← one-time PKCE authorization flow
+└── package.json
+```
+
+```bash
+cd mcp/canva-tools && npm install && node setup.mjs
+```
+
+Register the server in `~/.claude/settings.json` to make `duplicate_design` available in any Claude session.
+
+> Local testing requires ngrok (Canva OAuth redirect URIs must be HTTPS). Until OAuth is configured, duplicate the master manually in the Canva app and share the edit link.
+
+<a id="en-split"></a>
+
+## Public / Private Split
+
+**Public `main` contains:** plugin metadata, public skill, public templates, Canva MCP server code (no `.env`), README
+
+**Private repo or ignored local files contain:** real candidate experience, contact details, Canva IDs, `references/private-config.md`, `.env`
+
+<a id="en-private-config"></a>
+
+## Private Interface: `private-config`
+
+The skill reads all private runtime data through one file: `references/private-config.md`
+
+It holds: contact info, template metadata, field mappings, output preferences, and optional private Markdown source paths.
 
 <a id="en-structure"></a>
 
@@ -499,37 +445,45 @@ offerhelper/
 │           ├── candidate-profile-template.md
 │           ├── resume-layout-map-template.md
 │           └── private-config.example.md
+├── mcp/
+│   └── canva-tools/          ← Canva Connect API MCP server
+│       ├── server.mjs
+│       ├── auth.mjs
+│       ├── setup.mjs
+│       └── package.json
 ├── scripts/
 │   ├── validate-readme.mjs
-│   └── validate-public-safety.mjs
+│   ├── validate-public-safety.mjs
+│   └── canva-duplicate.mjs   ← standalone CLI fallback
 ├── .gitignore
 ├── package.json
 └── README.md
 ```
 
-Typical local runtime files, ignored by Git:
+Local runtime files (git-ignored):
 
 ```text
 references/
 ├── candidate-profile.md
 ├── resume-layout-map.md
 └── private-config.md
+.env   ← CANVA_CLIENT_ID / SECRET / REFRESH_TOKEN
 ```
 
 <a id="en-faq"></a>
 
 ## FAQ
 
-### Can I still use Canva?
+**Will the master template be modified?**  
+No. The skill always creates a per-job copy first. The master is never opened for editing.
 
-Yes. The public repo no longer ships real Canva metadata, but your private `private-config.md` can still hold design IDs, page IDs, edit URLs, and field IDs.
+**Does generating the Anschreiben open Word?**  
+Word opens briefly in the background while the MCP connector writes the file. No manual interaction required.
 
-### Do I have to create a separate private repo?
+**Do I need to configure Canva OAuth before using the MCP?**  
+Yes — run `node mcp/canva-tools/setup.mjs` once. Until then, duplicate the master manually in the Canva app.
 
-No. Ignored local files are enough. A separate private repo is simply the cleaner long-term setup for backup and maintenance.
-
-### Why remove real `references/` files from the public repo?
-
-Because those files gradually accumulate real candidate history, company names, education, and live template metadata. The public repo should ship templates only.
+**Do I need a separate private repo?**  
+No. Local git-ignored files are sufficient. A separate private repo is cleaner for long-term maintenance.
 
 </details>
