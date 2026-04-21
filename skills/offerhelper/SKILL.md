@@ -194,7 +194,7 @@ Using the per-job copy from Step 4:
 
 - Produce a cover letter in the format and language specified in `references/private-config.md`.
 - Keep it to one A4 page unless the user explicitly requests otherwise.
-- Generate the `.docx` file using a Python script (`python-docx`) — **do not open Word or any desktop application**. Write the generation script to `/tmp/gen_anschreiben.py`, run it, then delete it. Never save the script to the user's Downloads or project directory.
+- Generate the `.docx` file using the **Word By Anthropic MCP connector** (`create_document` → `save_document`). Do not use python scripts or any other method.
 - Preferred structure:
   - sender block
   - recipient block
