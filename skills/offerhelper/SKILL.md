@@ -187,13 +187,14 @@ Using the per-job copy from Step 4:
 ### 6. Export the Resume
 
 - Export only after the resume copy update is complete.
-- If export succeeds, return the resume artifact link or file path.
+- If export succeeds, download the PDF and proceed to Step 8.
 - If export fails, report the failure briefly and give the next manual step needed to finish the export.
 
 ### 7. Generate the Cover Letter
 
 - Produce a cover letter in the format and language specified in `references/private-config.md`.
 - Keep it to one A4 page unless the user explicitly requests otherwise.
+- Generate the `.docx` file using the **Word By Anthropic MCP connector** (`create_document` → `save_document`). Do not use python scripts or any other method.
 - Preferred structure:
   - sender block
   - recipient block
@@ -204,14 +205,35 @@ Using the per-job copy from Step 4:
   - two compact body paragraphs
   - short closing
   - greeting, signature gap, name
-- If the draft exceeds one page, compress wording before finalizing.
+- If the draft exceeds one page, compress wording before finalizing. Do not reduce font size.
 - If `.docx` generation is unavailable, return finalized text and state that manual document export is still needed.
+
+### 8. Package Output Files
+
+After both documents are ready, create a job-specific output folder and save all artifacts there:
+
+1. Create folder `~/Downloads/<Company>_<JobTitle>/` where `<Company>` and `<JobTitle>` are taken from the job posting (no spaces, underscores between words).
+2. Save the exported resume PDF as `CV_ZijianDing.pdf`.
+3. Save the cover letter as `Anschreiben_ZijianDing.docx`.
+4. Create a `data.md` file in the folder with the following fields:
+   - Company name
+   - Position title
+   - Application date (YYYY-MM-DD)
+   - Job posting URL (if provided)
+   - Canva edit URL of the per-job copy
+   - **Top 3 screening criteria** from the hiring-manager perspective (from Step 1)
+   - Summary of which CV elements were highlighted and why (subtitle, key bullets, Kompetenzen order)
+
+The final `~/Downloads/<Company>_<JobTitle>/` folder must contain exactly:
+- `CV_ZijianDing.pdf`
+- `Anschreiben_ZijianDing.docx`
+- `data.md`
 
 ## Output Contract
 
 - User-facing final output:
-  - resume artifact link or file path when generated
-  - cover letter artifact link or file path when generated
+  - full path to the output folder (e.g. `~/Downloads/Wiz_TechnicalAccountManager/`)
+  - Canva edit link for the resume copy
   - brief fallback note only when a required step could not be completed
 - Operator-facing change log:
   - changed logical field
