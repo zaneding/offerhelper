@@ -15,9 +15,10 @@ or store it in a separate private repository such as `offerhelpe_privat`.
 - `default_output_language`
 
 ## Resume Template Metadata
+- `master_template_id` — ID of the original master design (read-only, never edited directly)
 - `template_name`
-- `design_id`
-- `edit_url`
+- `design_id` — per-job copy; created by duplicating `master_template_id` at the start of each application
+- `edit_url` — edit URL of the per-job copy
 - `page_id`
 
 ## Logical Field Mapping
@@ -48,5 +49,7 @@ Example values:
 - Keep private config outside version control.
 - Keep real source-of-truth Markdown files outside the public repo.
 - If the optional source paths exist, Claude can read them to generate or refresh local `references/candidate-profile.md` and `references/resume-layout-map.md`.
-- When the template changes, update the field mapping first.
+- `master_template_id` is set once and never changed. Treat it as read-only after initial setup.
+- Before each job application, duplicate `master_template_id` in Canva and record the new `design_id` and `edit_url`.
+- When the template design changes, update `master_template_id` and the field mapping first.
 - When candidate facts change, update the private source of truth before using the skill for new applications.
